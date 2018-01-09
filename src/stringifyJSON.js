@@ -7,6 +7,7 @@ function type(obj, type) {
   return (typeof obj) === type;
 }
 
+// testing type(obj, type) function
 // console.log(type(undefined, 'undefined')); // true
 // console.log(type(undefined, 'number')); // false
 // console.log(type('hello', 'string')); // true
