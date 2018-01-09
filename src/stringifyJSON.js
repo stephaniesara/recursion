@@ -3,37 +3,26 @@
 
 // but you don't so you're going to write it from scratch:
 
+// Returns true if 'obj' is of type 'type'
 function type(obj, type) {
   return (typeof obj) === type;
 }
 
-// testing type(obj, type) function
-// console.log(type(undefined, 'undefined')); // true
-// console.log(type(undefined, 'number')); // false
-// console.log(type('hello', 'string')); // true
-// console.log(type('hello', 'boolean')); // fase
-// console.log(type(true, 'boolean')); // true
-// console.log(type(true, 'string')); // false
-
-
+// Mimics the JSON.stringify(obj) function
 var stringifyJSON = function(obj) {
   if (type(obj, 'string')) {
     return '"' + obj + '"';
-  } else if (type(obj, 'number') || type(obj, 'boolean')) {
-    return '' + obj;
+  } else if (type(obj, 'number') || type(obj, 'boolean') || (obj === null)) {
+    return '' + obj; // Stringifies a non-string primitive or null
   } else if (type(obj, 'undefined') || type(obj, 'function')) {
-    return null;
-  } else if (obj == null) {
-    return 'null';
+    return null; // JSON does not stringify undefined or functions
 
-  // If obj is an array
-  } else if (Array.isArray(obj)) {
+  } else if (Array.isArray(obj)) { // If obj is an array
     return '[' + obj.map(function(elem) {
         return stringifyJSON(elem);
       }).join(',') + ']';
 
-  // If obj is a non-array object (with key-value pairs)
-  } else {
+  } else { // If obj is a non-array object with key-value pairs
     var pairs = [];
     Object.keys(obj).forEach(function(key) {
       var value = stringifyJSON(obj[key]);
@@ -42,9 +31,5 @@ var stringifyJSON = function(obj) {
       }
     });
     return '{' + pairs.join(',') + '}';
-
-    // return '{' + Object.keys(obj).map(function(key) {
-    //   return stringifyJSON(key) + ':' + stringifyJSON(obj[key]);
-    // }).join(',') + '}';
   }
 };
